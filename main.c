@@ -58,6 +58,48 @@ void writeStudents() {
     fclose(fp);
 }
 
+void addStudent(){
+    fflush(stdin);
+    FILE *fp;
+    fp  = fopen("students.dat", "ab");
+    struct student s1;
+    int i  = 0;
+    while (1){
+        i++;
+        printf("\n[%02d] Enter the student's name: ", i);
+        fgets(s1.name, 127, stdin);
+        removeNL(s1.name);
+        printf("[%02d] Enter the student's ID: ", i);
+        scanf("%d", &s1.id);
+        for (int j = 1; j <= 2; j++){
+            printf("[%02d] Enter the student's grade for test %d: ", i, j);
+            scanf("%f", &s1.grade[j-1]);
+        }
+
+        fwrite(&s1, sizeof(s1), 1, fp);     
+
+
+
+        printf("\nContinue? (Y/N)\n");
+        char prompt;
+        while (1){
+            fflush(stdin);
+            prompt = getchar();
+            if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+                break;
+            }
+            printf("\nPlease type \"Y\" or \"N\"\n");
+        }
+        if (prompt == 'N' || prompt == 'n'){
+            break;
+        }
+        fflush(stdin);
+
+    }
+    printf("\n");
+    fclose(fp);
+}
+
 void displayStudents() {
     fflush(stdin);
     struct student s1;
@@ -80,15 +122,48 @@ void displayStudents() {
     system("pause");
 }
 
+void updateStudent() {
+    fflush(stdin);
+    FILE *fp;
+    fp  = fopen("students.dat", "rb+");
+    struct student s1;
+    char search[127];
+    printf("\n Enter the student ID or full name: ");
+    fgets(search, 127, stdin);
+    removeNL(search);
+    while (1){
+        fread(&s1, sizeof(s1), 1, fp);
+        if(feof(fp)){
+            break;
+        }
+        if (strcmp(search, s1.name) == 0){
+            printf("\n Enter the student's name: ");
+            fgets(s1.name, 127, stdin);
+            removeNL(s1.name);
+            printf(" Enter the student's ID: ");
+            scanf("%d", &s1.id);
+            for (int j = 1; j <= 2; j++){
+                printf(" Enter the student's grade for test %d: ", j);
+                scanf("%f", &s1.grade[j-1]);
+            }
+            fwrite(&s1, sizeof(s1), 1, fp); 
+        }   
+    }
+    system("pause");
+
+}
+
 int main() {
     while (1) {
         system("cls");
         printf("\n============================================");
         printf("\n Student Information");
         printf("\n============================================");
-        printf("\n\n [1] Write Students");
+        printf("\n\n [1] New Students File");
         printf("\n [2] Display Students");
-        printf("\n [0] Exit");
+        printf("\n [3] Add Students");
+        printf("\n [4] Modify Students");
+        printf("\n\n\n [0] Exit");
         printf("\n\n============================================\n\n");
 
         char prompt = getchar();
@@ -97,6 +172,10 @@ int main() {
             writeStudents();
         } else if (prompt == '2'){
             displayStudents();
+        } else if (prompt == '3'){
+            addStudent();
+        } else if (prompt == '4'){
+            updateStudent();
         } else if (prompt == '0'){
             return 0;
         }
