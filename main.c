@@ -2,11 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct student {
+typedef struct tst {
+    char name[127];
+        char student[127];
+    float grade;
+} test;
+
+typedef struct stud {
     char name[127];
     int id;
-    float grade[2];
-};
+} student;
 
 void removeNL(char *input){
     size_t len = strlen(input);
@@ -22,7 +27,7 @@ int intInput() {
     fgets(inputString, 127, stdin);
     removeNL(inputString);
     number = strtol(inputString, &endBuff, 10);
-    while (number == 0 || *endBuff != '\0'){
+    while (*endBuff != '\0'){
         printf("Please enter a valid number: ");
         fgets(inputString, 127, stdin);
         removeNL(inputString);
@@ -38,7 +43,7 @@ float floatInput() {
     fgets(inputString, 127, stdin);
     removeNL(inputString);
     number = strtod(inputString, &endBuff);
-    while (number == 0 || *endBuff != '\0'){
+    while (*endBuff != '\0'){
         printf("Please enter a valid number: ");
         fgets(inputString, 127, stdin);
         removeNL(inputString);
@@ -52,7 +57,7 @@ void writeStudents() {
     fflush(stdin);
     FILE *fp;
     fp  = fopen("students.dat", "wb");
-    struct student s1;
+    student s1;
     int i  = 0;
     while (1){
         i++;
@@ -61,15 +66,7 @@ void writeStudents() {
         removeNL(s1.name);
         printf("[%02d] Enter the student's ID: ", i);
         s1.id = intInput();          
-        for (int j = 1; j <= 2; j++){
-            printf("[%02d] Enter the student's grade for test %d: ", i, j);
-            s1.grade[j-1] = floatInput();
-        }
-
         fwrite(&s1, sizeof(s1), 1, fp);     
-
-
-
         printf("\nContinue? (Y/N)\n");
         char prompt;
         while (1){
@@ -90,12 +87,87 @@ void writeStudents() {
     fclose(fp);
 }
 
+void addTest() {
+    system("cls");
+    fflush(stdin);
+    test p1;
+    student s1;
+    FILE *fp, *ftest;
+    fp  = fopen("students.dat", "rb");
+    printf("\nEnter the name of the test (Ex: P1): \n");
+    fgets(p1.name, 127, stdin);
+    removeNL(p1.name);
+    ftest = fopen("tests.dat", "ab");
+    while (1) {
+        fread(&s1, sizeof(s1), 1, fp);
+        if (feof(fp)){
+            break;
+        }
+        printf("Enter the grade for \"%s\": ", s1.name);
+        strcpy(p1.student, s1.name);
+        p1.grade = floatInput();
+        fwrite(&p1, sizeof(p1), 1, ftest);   
+    }
+    fclose(ftest);
+    fclose(fp);
+    system("pause");
+}
+
+int testMenu() {
+    FILE *ftest;
+    test p1;
+    ftest  = fopen("tests.dat", "rb");
+    printf("Tests\n");
+    int i = 0;
+    while (1){
+        fread(&p1, sizeof(p1), 1, ftest);
+        if (feof(ftest)){
+            break;
+        }
+        char menutitle[127];
+        if (strcmp(menutitle, p1.name) != 0){
+            i++;
+            printf("\n[%d] %s", i, p1.name);
+            strcpy(menutitle, p1.name);
+        }
+    }
+    printf("\nChoose the test: ");
+    fflush(stdin);
+    int num = intInput();
+    switch (num){
+        case 1:
+            if (i > 0){
+                return 1;
+                break;
+            }
+        case 2:
+            if (i > 1){
+                return 2;
+                break;
+            }
+        case 3:
+            if (i > 2){
+                return 3;
+                break;
+            }
+        case 4:
+            if (i > 3){
+                return 4;
+                break;
+            }
+        default:
+            printf("\nTest not available");
+            break;
+    }
+    return -1;
+}
+
 void addStudent(){
     system("cls");
     fflush(stdin);
     FILE *fp;
     fp  = fopen("students.dat", "ab");
-    struct student s1;
+    student s1;
     int i  = 0;
     while (1){
         i++;
@@ -104,15 +176,7 @@ void addStudent(){
         removeNL(s1.name);
         printf("[%02d] Enter the student's ID: ", i);
         s1.id = intInput();
-        for (int j = 1; j <= 2; j++){
-            printf("[%02d] Enter the student's grade for test %d: ", i, j);
-            scanf("%f", &s1.grade[j-1]);
-        }
-
         fwrite(&s1, sizeof(s1), 1, fp);     
-
-
-
         printf("\nContinue? (Y/N)\n");
         char prompt;
         while (1){
@@ -133,23 +197,22 @@ void addStudent(){
     fclose(fp);
 }
 
-void printStudent(struct student st) {
+void printStudent(student st) {
     printf("\n============================================");
     printf("\nName: %s", st.name);
     printf("\nID: %d", st.id);
-    printf("\nTest 1: %.2f", st.grade[0]);
-    printf("\nTest 2: %.2f", st.grade[1]);
     printf("\n============================================");
 }
 
 void displayStudent() {
-    system("cls");
     fflush(stdin);
-    struct student s1;
-    FILE *fr;
+    student s1;
+    test p1;
+    FILE *fr, *ftest;
     fr = fopen("students.dat", "rb");
+    ftest = fopen("tests.dat", "rb");
     char search[127];
-    printf("\nEnter the student's full name: ");
+    printf("Enter the student's full name: ");
     fgets(search, 127, stdin);
     removeNL(search);
     int found = 0;
@@ -161,21 +224,33 @@ void displayStudent() {
         if (strcmp(search, s1.name) == 0){
             printStudent(s1);
             found = 1;
+            printf("\n\nTESTS\n");
+            while (1){
+                fread(&p1, sizeof(p1), 1, ftest);
+                if (feof(ftest)){
+                    break;
+                }
+                if (strcmp(s1.name,p1.student) == 0){
+                    printf("\n%s: %.2f", p1.name, p1.grade);
+                }
+            }
         }
+        
     }
     if (found == 0){
         printf("\nSorry. The student was not found.");
     }
-    printf("\n");
+    printf("\n\n============================================\n\n");
     system("pause");
+    fclose(fr);
+    fclose(ftest);
 
 }
 
 void displayAllStudents() {
-    system("cls");
     fflush(stdin);
     printf(" STUDENTS\n");
-    struct student s1;
+    student s1;
     FILE *fr;
     fr = fopen("students.dat", "rb");
     while (1){
@@ -190,69 +265,13 @@ void displayAllStudents() {
     system("pause");
 }
 
-void updateStudent() {
-    system("cls");
-    fflush(stdin);
-    FILE *fp, *ftemp;
-    fp  = fopen("students.dat", "rb");
-    ftemp = fopen("temp.dat", "wb");
-    struct student s1;
-    char search[127];
-    printf("\nEnter the student's full name: ");
-    fgets(search, 127, stdin);
-    removeNL(search);
-    int found = 0;
-    while (1){
-        fread(&s1, sizeof(s1), 1, fp);
-        if(feof(fp)){
-            break;
-        }
-        if (strcmp(search, s1.name) == 0){
-            printStudent(s1);
-            found = 1;
-            printf("\nEnter the student's new name: ");
-            fgets(s1.name, 127, stdin);
-            removeNL(s1.name);
-            printf("Enter the student's new ID: ");
-            s1.id = intInput();
-            for (int j = 1; j <= 2; j++){
-                printf("Enter the student's new grade for test %d: ", j);
-                scanf("%f", &s1.grade[j-1]);
-            }
-            fwrite(&s1, sizeof(s1), 1, ftemp); 
-        } else {
-            fwrite(&s1, sizeof(s1), 1, ftemp);
-        } 
-    }
-    fclose(fp);
-    fclose(ftemp);
-    if (found == 0){
-        printf("Sorry. The student was not found.\n");
-    } else {
-        fp  = fopen("students.dat", "wb");
-        ftemp = fopen("temp.dat", "rb");
-
-        while(1){
-            fread(&s1, sizeof(s1), 1, ftemp);
-            if(feof(ftemp)){
-                break;
-            }
-            fwrite(&s1, sizeof(s1), 1, fp);
-        }
-        fclose(fp);
-        fclose(ftemp);
-        printf("Student updated.\n");
-    }
-    system("pause");
-}
 
 void deleteStudent() {
-    system("cls");
     fflush(stdin);
     FILE *fp, *ftemp;
     fp  = fopen("students.dat", "rb");
     ftemp = fopen("temp.dat", "wb");
-    struct student s1;
+    student s1;
     char search[127];
     printf("\nEnter the student's full name: ");
     fgets(search, 127, stdin);
@@ -314,32 +333,46 @@ int main() {
         printf("\n Student Information");
         printf("\n============================================");
         printf("\n\n [1] New Students File");
-        printf("\n [2] Display Student");
-        printf("\n [3] Display All Students");
-        printf("\n [4] Add Student");
-        printf("\n [5] Modify Student");
-        printf("\n [6] Delete Student");
+        printf("\n [2] Add Student");
+        printf("\n [3] Display Student");
+        printf("\n [4] Delete Student");
+        printf("\n [5] Add Test");
+        printf("\n [6] Display Test");
+        printf("\n [7] Delete Test");
+        printf("\n [8] Display All Students");
         printf("\n\n\n [0] Exit");
         printf("\n\n============================================\n\n");
 
-        char prompt = getchar();
+        fflush(stdin);
+        int prompt = intInput();
 
         printf("\n============================================\n\n");
 
-        if(prompt == '1'){
-            writeStudents();
-        } else if (prompt == '2'){
-            displayStudent();
-        } else if (prompt == '3'){
-            displayAllStudents();
-        } else if (prompt == '4'){
-            addStudent();
-        } else if (prompt == '5'){
-            updateStudent();
-        } else if (prompt == '6'){
-            deleteStudent();
-        } else if (prompt == '0'){
-            return 0;
+        switch(prompt){
+            case 1:
+                writeStudents();
+                break;
+            case 2:
+                addStudent();
+                break;
+            case 3:
+                displayStudent();
+                break;
+            case 4:
+                deleteStudent();
+                break;
+            case 5:
+                addTest();
+                break;
+            case 8:
+                displayAllStudents();
+                break;
+            case 0:
+                return 0;
+            default:
+                printf("Option does not exist");
+                system("pause");
+                break;
         }
     }
 }
