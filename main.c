@@ -4,7 +4,7 @@
 
 typedef struct tst {
     char name[127];
-        char student[127];
+    char student[127];
     float grade;
 } test;
 
@@ -53,7 +53,6 @@ float floatInput() {
 }
 
 void writeStudents() {
-    system("cls");
     fflush(stdin);
     FILE *fp;
     fp  = fopen("students.dat", "wb");
@@ -88,7 +87,6 @@ void writeStudents() {
 }
 
 void addTest() {
-    system("cls");
     fflush(stdin);
     test p1;
     student s1;
@@ -131,6 +129,7 @@ int testMenu() {
             strcpy(menutitle, p1.name);
         }
     }
+    printf("\n\n============================================\n\n");
     printf("\nChoose the test: ");
     fflush(stdin);
     int num = intInput();
@@ -156,10 +155,48 @@ int testMenu() {
                 break;
             }
         default:
-            printf("\nTest not available");
+            printf("\nTest not available\n\n");
+            system("pause");
             break;
     }
+    fclose(ftest);
     return -1;
+}
+
+void displayTest(){
+    FILE *ftest;
+    test p1;
+    ftest  = fopen("tests.dat", "rb");
+    int num = testMenu();
+    system("cls");
+    int title = 0;
+    int testNum;
+    int i = 0;
+    while(1){
+        fread(&p1, sizeof(p1), 1, ftest);
+        if (feof(ftest)){
+            break;
+        }
+
+        char testTitle[127];
+        if (strcmp(testTitle, p1.name) != 0){
+            i++;
+            testNum = i;
+            strcpy(testTitle, p1.name);
+        }
+
+        if (testNum == num){
+            if(title == 0){
+                printf("\n%s GRADES", p1.name);
+                printf("\n============================================\n");
+                title = 1;
+            }
+            printf("\n%s: %.2f", p1.student, p1.grade);
+        }
+    }
+    printf("\n\n============================================\n\n");
+    system("pause");
+    
 }
 
 void addStudent(){
@@ -350,7 +387,7 @@ int main() {
 
         switch(prompt){
             case 1:
-                writeStudents();
+                testMenu();
                 break;
             case 2:
                 addStudent();
@@ -364,13 +401,16 @@ int main() {
             case 5:
                 addTest();
                 break;
+            case 6:
+                displayTest();
+                break;
             case 8:
                 displayAllStudents();
                 break;
             case 0:
                 return 0;
             default:
-                printf("Option does not exist");
+                printf("Option does not exist\n");
                 system("pause");
                 break;
         }
