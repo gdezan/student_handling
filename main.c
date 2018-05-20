@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
 
 struct student {
     char name[127];
@@ -32,6 +31,22 @@ int intInput() {
     return number;
 }
 
+float floatInput() {
+    float number;
+    char inputString[127];
+    char *endBuff;
+    fgets(inputString, 127, stdin);
+    removeNL(inputString);
+    number = strtod(inputString, &endBuff);
+    while (number == 0 || *endBuff != '\0'){
+        printf("Please enter a valid number: ");
+        fgets(inputString, 127, stdin);
+        removeNL(inputString);
+        number = strtod(inputString, &endBuff);
+    }
+    return number;
+}
+
 void writeStudents() {
     system("cls");
     fflush(stdin);
@@ -48,7 +63,7 @@ void writeStudents() {
         s1.id = intInput();          
         for (int j = 1; j <= 2; j++){
             printf("[%02d] Enter the student's grade for test %d: ", i, j);
-            scanf("%f", &s1.grade[j-1]);
+            s1.grade[j-1] = floatInput();
         }
 
         fwrite(&s1, sizeof(s1), 1, fp);     
