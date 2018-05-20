@@ -9,7 +9,15 @@ struct student {
     float grade[2];
 };
 
+void removeNL(char *input){
+    size_t len = strlen(input);
+        if (len > 0 && input[len-1] == '\n') {
+            input[--len] = '\0';
+    }
+}
+
 void writeStudents() {
+    fflush(stdin);
     FILE *fp;
     fp  = fopen("students.dat", "wb");
     struct student s1;
@@ -18,10 +26,7 @@ void writeStudents() {
         i++;
         printf("\n[%02d] Enter the student's name: ", i);
         fgets(s1.name, 127, stdin);
-        size_t len = strlen(s1.name);
-        if (len > 0 && s1.name[len-1] == '\n') {
-            s1.name[--len] = '\0';
-        }
+        removeNL(s1.name);
         printf("[%02d] Enter the student's ID: ", i);
         scanf("%d", &s1.id);
         for (int j = 1; j <= 2; j++){
@@ -34,9 +39,16 @@ void writeStudents() {
 
 
         printf("\nContinue? (Y/N)\n");
-        fflush(stdin);
-        char prompt = getch();
-        if (prompt =='N' || prompt == 'n'){
+        char prompt;
+        while (1){
+            fflush(stdin);
+            prompt = getchar();
+            if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+                break;
+            }
+            printf("\nPlease type \"Y\" or \"N\"\n");
+        }
+        if (prompt == 'N' || prompt == 'n'){
             break;
         }
         fflush(stdin);
@@ -47,6 +59,7 @@ void writeStudents() {
 }
 
 void displayStudents() {
+    fflush(stdin);
     struct student s1;
     FILE *fr;
     fr = fopen("students.dat", "rb");
@@ -64,12 +77,28 @@ void displayStudents() {
     printf("\n============================================");
     fclose(fr);
     printf("\n");
+    system("pause");
 }
 
 int main() {
+    while (1) {
+        system("cls");
+        printf("\n============================================");
+        printf("\n Student Information");
+        printf("\n============================================");
+        printf("\n\n [1] Write Students");
+        printf("\n [2] Display Students");
+        printf("\n [0] Exit");
+        printf("\n\n============================================\n\n");
 
-    writeStudents();
-    displayStudents();
-    return 0;
+        char prompt = getchar();
 
+        if(prompt == '1'){
+            writeStudents();
+        } else if (prompt == '2'){
+            displayStudents();
+        } else if (prompt == '0'){
+            return 0;
+        }
+    }
 }
