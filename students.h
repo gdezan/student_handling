@@ -11,7 +11,7 @@ typedef struct stud {
 void removeNL(char *input);
 int intInput();
 float floatInput();
-void writeStudents();
+int writeStudents();
 void addStudent();
 void printStudent(student st);
 void displayStudent();

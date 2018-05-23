@@ -60,7 +60,21 @@ float floatInput() {
     return number;
 }
 
-void writeStudents() {
+int writeStudents() {
+    
+    printf("\nThis will delete everything in your file and start a new one.\nAre you sure you want to do this? (Y/N)\n");
+    char prompt;
+    while (1){
+        fflush(stdin);
+        prompt = getchar();
+        if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+            break;
+        }
+        printf("\nPlease type \"Y\" or \"N\"\n");
+    }
+    if (prompt == 'N' || prompt == 'n'){
+        return 0;
+    }
     fflush(stdin);
     FILE *fp;
     fp  = fopen("students.dat", "wb");
@@ -99,6 +113,7 @@ void writeStudents() {
     }
     printf("\n");
     fclose(fp);
+    return 0;
 }
 
 
@@ -108,35 +123,21 @@ void addStudent(){
     FILE *fp;
     fp  = fopen("students.dat", "ab");
     student s1;
-    while (1){
-        printf("\nEnter the student's name: ");
-        fgets(s1.name, 127, stdin);
-        removeNL(s1.name);
-        printf("Enter the student's ID: ");
-        s1.id = intInput();
-        for (int i = 0; i <= 1; i++){
-            if(added[i] == 1){
-                printf("Enter the the student's grade for Test %d: ", i+1);
-                s1.test[i] = floatInput();
-            }
-        }
-        fwrite(&s1, sizeof(s1), 1, fp);     
-        printf("\nContinue? (Y/N)\n");
-        char prompt;
-        while (1){
-            fflush(stdin);
-            prompt = getchar();
-            if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
-                break;
-            }
-            printf("\nPlease type \"Y\" or \"N\"\n");
-        }
-        if (prompt == 'N' || prompt == 'n'){
-            break;
-        }
-        fflush(stdin);
 
+    printf("\nEnter the student's name: ");
+    fgets(s1.name, 127, stdin);
+    removeNL(s1.name);
+    printf("Enter the student's ID: ");
+    s1.id = intInput();
+    for (int i = 0; i <= 1; i++){
+        if(added[i] == 1){
+            printf("Enter the the student's grade for Test %d: ", i+1);
+            s1.test[i] = floatInput();
+        }
     }
+    fwrite(&s1, sizeof(s1), 1, fp);     
+    fflush(stdin);
+
     printf("\n");
     fclose(fp);
 }
