@@ -36,7 +36,7 @@ int intInput() {
     removeNL(inputString);
     number = strtol(inputString, &endBuff, 10);
     while (*endBuff != '\0'){
-        printf("Please enter a valid number: ");
+        printf("Por favor digite um numero valido: ");
         fgets(inputString, 127, stdin);
         removeNL(inputString);
         number = strtol(inputString, &endBuff, 10);
@@ -52,7 +52,7 @@ float floatInput() {
     removeNL(inputString);
     number = strtod(inputString, &endBuff);
     while (*endBuff != '\0'){
-        printf("Please enter a valid number: ");
+        printf("Por favor digite um numero valido: ");
         fgets(inputString, 127, stdin);
         removeNL(inputString);
         number = strtod(inputString, &endBuff);
@@ -62,15 +62,15 @@ float floatInput() {
 
 int writeStudents() {
     
-    printf("\nThis will delete everything in your file and start a new one.\nAre you sure you want to do this? (Y/N)\n");
+    printf("\nEsse procedimento ira deletar seu arquivo antigo (caso ele exista) e criar um novo.\nTem certeza que quer fazer isso? (S/N)\n");
     char prompt;
     while (1){
         fflush(stdin);
         prompt = getchar();
-        if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+        if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
             break;
         }
-        printf("\nPlease type \"Y\" or \"N\"\n");
+        printf("\nPor favor digite \"S\" ou \"N\"\n");
     }
     if (prompt == 'N' || prompt == 'n'){
         return 0;
@@ -82,10 +82,10 @@ int writeStudents() {
     int i  = 0;
     while (1){
         i++;
-        printf("\n[%02d] Enter the student's name: ", i);
+        printf("\n[%02d] Entre o nome do aluno: ", i);
         fgets(s1.name, 127, stdin);
         removeNL(s1.name);
-        printf("[%02d] Enter the student's ID: ", i);
+        printf("[%02d] Entre o NUSP do aluno: ", i);
         s1.id = intInput();   
         s1.test[0] = -1;
         s1.test[1] = -1;
@@ -94,15 +94,15 @@ int writeStudents() {
         s1.work[2] = -1;
         s1.work[3] = -1;       
         fwrite(&s1, sizeof(s1), 1, fp);     
-        printf("\nContinue? (Y/N)\n");
+        printf("\nAdicionar outro aluno? (S/N)\n");
         char prompt;
         while (1){
             fflush(stdin);
             prompt = getchar();
-            if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+            if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
-            printf("\nPlease type \"Y\" or \"N\"\n");
+            printf("\nPor favor digite \"S\" ou \"N\"\n");
         }
         if (prompt == 'N' || prompt == 'n'){
             break;
@@ -124,20 +124,20 @@ void addStudent(){
     fp  = fopen("students.dat", "ab");
     student s1;
 
-    printf("\nEnter the student's name: ");
+    printf("\nEntre o nome do aluno: ");
     fgets(s1.name, 127, stdin);
     removeNL(s1.name);
-    printf("Enter the student's ID: ");
+    printf("Entre o NUSP do aluno: ");
     s1.id = intInput();
     for (int i = 0; i <= 1; i++){
         if(added[i] == 1){
-            printf("Enter the the student's grade for Test %d: ", i+1);
+            printf("Entre a nota do aluno na Prova %d: ", i+1);
             s1.test[i] = floatInput();
         }
     }
     for (int i = 2; i <= 5; i++){
         if(added[i] == 1){
-            printf("Enter the the student's grade for Project %d: ", i-1);
+            printf("Entre a nota do aluno no Trabalho %d: ", i-1);
             s1.work[i-2] = floatInput();
         }
     }
@@ -150,8 +150,8 @@ void addStudent(){
 
 void printStudent(student st) {
     printf("\n============================================");
-    printf("\nName: %s", st.name);
-    printf("\nID: %d", st.id);
+    printf("\nNome: %s", st.name);
+    printf("\nNUSP: %d", st.id);
     printf("\n============================================");
 }
 
@@ -161,7 +161,7 @@ void displayStudent() {
     FILE *fr;
     fr = fopen("students.dat", "rb");
     char search[127];
-    printf("Enter the student's full name or ID: ");
+    printf("Entre o nome completo do aluno ou seu NUSP: ");
     fgets(search, 127, stdin);
     removeNL(search);
     char *endBuff;
@@ -176,20 +176,20 @@ void displayStudent() {
             found = 1;
             printStudent(s1);
             if (added[0] == 1 || added[1] == 1){
-                printf("\nTESTS \n");
+                printf("\nPROVAS \n");
                 if(added[0] == 1){
-                    printf("\nTest 1: %.2f", s1.test[0]);
+                    printf("\nProva 1: %.2f", s1.test[0]);
                 }
                 if(added[1] == 1){
-                    printf("\nTest 2: %.2f", s1.test[1]);
+                    printf("\nProva 2: %.2f", s1.test[1]);
                 }
                 printf("\n============================================\n");
             }
             if (added[2] == 1 || added[3] == 1 || added[4] == 1 || added[5] == 1){
-                printf("PROJECTS\n");
+                printf("TRABALHOS\n");
                 for (int i = 2; i <= 5; i++){
                     if(added[i] == 1){
-                        printf("\nProject %d: %.2f", i-1, s1.work[i-2]);
+                        printf("\nTrabalho %d: %.2f", i-1, s1.work[i-2]);
                     }
                 }
                 printf("\n============================================\n");
@@ -198,7 +198,7 @@ void displayStudent() {
         
     }
     if (found == 0){
-        printf("\nSorry. The student was not found.");
+        printf("\nO aluno não foi encontrado.");
     }
     printf("\n\n");
     system("pause");
@@ -208,7 +208,7 @@ void displayStudent() {
 
 void displayAllStudents() {
     fflush(stdin);
-    printf(" STUDENTS\n");
+    printf("ALUNOS\n");
     student s1;
     FILE *fr;
     fr = fopen("students.dat", "rb");
@@ -232,32 +232,34 @@ void deleteStudent() {
     ftemp = fopen("temp.dat", "wb");
     student s1;
     char search[127];
-    printf("\nEnter the student's full name: ");
+    printf("Entre o nome completo do aluno ou seu NUSP: ");
     fgets(search, 127, stdin);
     removeNL(search);
+    char *endBuff;
+    int searchID = strtol(search, &endBuff, 10);
     int found = 0;
     while (1){
         fread(&s1, sizeof(s1), 1, fp);
         if(feof(fp)){
             break;
         }
-        if (strcmp(search, s1.name) == 0){
+        if (strcmp(search, s1.name) == 0 || searchID == s1.id){
             printStudent(s1);
             found = 1;
-            printf("\nDelete this student? (Y/N)\n");
+            printf("\nExcluir esse aluno? (S/N)\n");
             char prompt;
             while (1){
                 fflush(stdin);
                 prompt = getchar();
-                if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+                if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                     break;
                 }
-                printf("\nPlease type \"Y\" or \"N\"\n");
+                printf("\nPor favor digite \"S\" ou \"N\"\n");
             }
             if (prompt == 'N' || prompt == 'n'){
                 fwrite(&s1, sizeof(s1), 1, ftemp);
             } else {
-                printf("Student deleted.\n");
+                printf("Aluno excluido.\n");
             }
         } else {
             fwrite(&s1, sizeof(s1), 1, ftemp);
@@ -266,7 +268,7 @@ void deleteStudent() {
     fclose(fp);
     fclose(ftemp);
     if (found == 0){
-        printf("Sorry. The student was not found.\n");
+        printf("O aluno nao foi encontrado.\n");
     } else {
         fp  = fopen("students.dat", "wb");
         ftemp = fopen("temp.dat", "rb");

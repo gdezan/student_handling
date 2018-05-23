@@ -9,11 +9,13 @@
 int testsMenu(){
     system("cls");
     printf("\n============================================");
-    printf("\n Choose the test");
+    printf("\n Escolha a prova");
     printf("\n============================================");
-    printf("\n\n [1] Test 1");
-    printf("\n [2] Test 2");
-    printf("\n\n\n [0] Go Back");
+    printf("\n\n [1] Prova 1");
+    if (added[0] == 0){ printf(" (Prova nao adicionada ainda)");}
+    printf("\n [2] Prova 2");
+    if (added[1] == 0){ printf(" (Prova nao adicionada ainda)");}
+    printf("\n\n\n [0] Voltar");
     printf("\n\n============================================\n\n");
     int choice = intInput();
     switch(choice){
@@ -27,7 +29,7 @@ int testsMenu(){
             return 0;
             break;
         default:
-            printf("Option does not exist\n");
+            printf("Essa opcao nao existe\n");
             system("pause");
             break;
     }
@@ -44,15 +46,15 @@ int addTest(){
     int chosenTest = testsMenu() - 1;
     if (chosenTest == -1) { return 0; };
     if (added[chosenTest] == 1) {
-        printf("\nThis test has already been added. Are you sure you want to overwrite it? (Y/N)\n");
+        printf("\nEssa prova ja foi adicionada. Tem certeza que quer substitui-la? (S/N)\n");
         char prompt;
         while (1){
             fflush(stdin);
             prompt = getchar();
-            if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+            if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
-            printf("\nPlease type \"Y\" or \"N\"\n");
+            printf("\nPor favor digite \"S\" ou \"N\"\n");
         }
         if (prompt == 'N' || prompt == 'n'){
             return 0;
@@ -60,14 +62,18 @@ int addTest(){
     }
     fflush(stdin);
     printf("\n============================================");
-    printf("\n Test %d", chosenTest+1);
+    printf("\n Prova %d", chosenTest+1);
     printf("\n============================================\n");
     while (1){
         fread(&s1, sizeof(s1), 1, fp);
         if(feof(fp)){
             break;
         }
-        printf("\nPlease enter the grade for %s: ", s1.name);
+        if (added[chosenTest] == 1){
+            printf("\nEntre com a nova nota para %s (Nota antiga: %.2f): ", s1.name, s1.test[chosenTest]);
+        } else {
+            printf("\nEntre com a nota para %s: ", s1.name);
+        }
         s1.test[chosenTest] = floatInput();
         fwrite(&s1, sizeof(s1), 1, ftemp);
     }
@@ -99,15 +105,15 @@ int deleteTest(){
 
     int chosenTest = testsMenu() - 1;
     if (chosenTest == -1) { return 0; };
-    printf("\nAre you sure you want to delete Test %d? (Y/N)\n", chosenTest+1);
+    printf("\nVoce tem certeza que gostaria de excluir a Prova %d? (S/N)\n", chosenTest+1);
     char prompt;
     while (1){
         fflush(stdin);
         prompt = getchar();
-        if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+        if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
             break;
         }
-        printf("\nPlease type \"Y\" or \"N\"\n");
+        printf("\nPor favor digite \"S\" ou \"N\"\n");
     }
     if (prompt == 'N' || prompt == 'n'){
         return 0;
@@ -147,7 +153,7 @@ void displayTest(){
     int chosenTest = testsMenu() - 1;
     if (added[chosenTest] == 1){
         printf("\n============================================");
-        printf("\n Test %d", chosenTest+1);
+        printf("\n Prova %d", chosenTest+1);
         printf("\n============================================\n");
         while(1){
             fread(&s1, sizeof(s1), 1, fp);
@@ -157,7 +163,7 @@ void displayTest(){
             printf("\n%s: %.2f", s1.name, s1.test[chosenTest]);
         }
     } else {
-        printf("\nSorry. This test was not added.");
+        printf("\nEssa prova nao foi adicionada.");
     }
     printf("\n \n");
     system("pause");
@@ -167,13 +173,17 @@ void displayTest(){
 int projectsMenu(){
     system("cls");
     printf("\n============================================");
-    printf("\n Choose the project");
+    printf("\n Escolha o Trabalho");
     printf("\n============================================");
-    printf("\n\n [1] Project 1");
-    printf("\n [2] Project 2");
-    printf("\n [3] Project 3");
-    printf("\n [4] Project 4");
-    printf("\n\n\n [0] Go Back");
+    printf("\n\n [1] Trabalho 1");
+    if (added[2] == 0){ printf(" (Trabalho nao adicionado ainda)");}
+    printf("\n [2] Trabalho 2");
+    if (added[3] == 0){ printf(" (Trabalho nao adicionado ainda)");}
+    printf("\n [3] Trabalho 3");
+    if (added[4] == 0){ printf(" (Trabalho nao adicionado ainda)");}
+    printf("\n [4] Trabalho 4");
+    if (added[5] == 0){ printf(" (Trabalho nao adicionado ainda)");}
+    printf("\n\n\n [0] Voltar");
     printf("\n\n============================================\n\n");
     int choice = intInput();
     switch(choice){
@@ -193,7 +203,7 @@ int projectsMenu(){
             return 0;
             break;
         default:
-            printf("Option does not exist\n");
+            printf("Essa opcao nao existe.\n");
             system("pause");
             break;
     }
@@ -210,15 +220,15 @@ int addProject(){
     int chosenProject = projectsMenu() - 1;
     if (chosenProject == -1) { return 0; };
     if (added[chosenProject + 2] == 1) {
-        printf("\nThis project has already been added. Are you sure you want to overwrite it? (Y/N)\n");
+        printf("\nEsse trabalho ja foi adicionado. Tem certeza que quer substitui-lo? (S/N)\n");
         char prompt;
         while (1){
             fflush(stdin);
             prompt = getchar();
-            if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+            if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
-            printf("\nPlease type \"Y\" or \"N\"\n");
+            printf("\nPor favor digite \"S\" ou \"N\"\n");
         }
         if (prompt == 'N' || prompt == 'n'){
             return 0;
@@ -226,14 +236,18 @@ int addProject(){
     }
     fflush(stdin);
     printf("\n============================================");
-    printf("\n Project %d", chosenProject+1);
+    printf("\n Trabalho %d", chosenProject+1);
     printf("\n============================================\n");
     while (1){
         fread(&s1, sizeof(s1), 1, fp);
         if(feof(fp)){
             break;
         }
-        printf("\nPlease enter the grade for %s: ", s1.name);
+        if (added[chosenProject+2] == 1){
+            printf("\nEntre com a nova nota para %s (Nota antiga: %.2f): ", s1.name, s1.work[chosenProject]);
+        } else {
+            printf("\nEntre com a nota para %s: ", s1.name);
+        }
         s1.work[chosenProject] = floatInput();
         fwrite(&s1, sizeof(s1), 1, ftemp);
     }
@@ -264,7 +278,7 @@ void displayProject(){
     int chosenProject = projectsMenu() - 1;
     if (added[chosenProject+2] == 1){
         printf("\n============================================");
-        printf("\n Project %d", chosenProject+1);
+        printf("\n Trabalho %d", chosenProject+1);
         printf("\n============================================\n");
         while(1){
             fread(&s1, sizeof(s1), 1, fp);
@@ -274,7 +288,7 @@ void displayProject(){
             printf("\n%s: %.2f", s1.name, s1.work[chosenProject]);
         }
     } else {
-        printf("\nSorry. This project was not added.");
+        printf("\nEsse trabalho nao foi adicionado.");
     }
     printf("\n \n");
     system("pause");
@@ -289,15 +303,15 @@ int deleteProject(){
 
     int chosenProject = projectsMenu() - 1;
     if (chosenProject == -1) { return 0; };
-    printf("\nAre you sure you want to delete Project %d? (Y/N)\n", chosenProject+1);
+    printf("\nVoce tem certeza que gostaria de excluir o trabalho %d? (S/N)\n", chosenProject+1);
     char prompt;
     while (1){
         fflush(stdin);
         prompt = getchar();
-        if (prompt == 'Y' || prompt == 'y' || prompt == 'n' || prompt == 'N'){
+        if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
             break;
         }
-        printf("\nPlease type \"Y\" or \"N\"\n");
+        printf("\nPor favor digite \"S\" ou \"N\"\n");
     }
     if (prompt == 'N' || prompt == 'n'){
         return 0;
