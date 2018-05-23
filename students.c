@@ -135,6 +135,12 @@ void addStudent(){
             s1.test[i] = floatInput();
         }
     }
+    for (int i = 2; i <= 5; i++){
+        if(added[i] == 1){
+            printf("Enter the the student's grade for Project %d: ", i-1);
+            s1.work[i-2] = floatInput();
+        }
+    }
     fwrite(&s1, sizeof(s1), 1, fp);     
     fflush(stdin);
 
@@ -155,16 +161,18 @@ void displayStudent() {
     FILE *fr;
     fr = fopen("students.dat", "rb");
     char search[127];
-    printf("Enter the student's full name: ");
+    printf("Enter the student's full name or ID: ");
     fgets(search, 127, stdin);
     removeNL(search);
+    char *endBuff;
+    int searchID = strtol(search, &endBuff, 10);
     int found = 0;
     while (1){
         fread(&s1, sizeof(s1), 1, fr);
         if(feof(fr)){
             break;
         }
-        if (strcmp(search, s1.name) == 0){
+        if (strcmp(search, s1.name) == 0 || searchID == s1.id){
             found = 1;
             printStudent(s1);
             if (added[0] == 1 || added[1] == 1){
@@ -174,6 +182,15 @@ void displayStudent() {
                 }
                 if(added[1] == 1){
                     printf("\nTest 2: %.2f", s1.test[1]);
+                }
+                printf("\n============================================\n");
+            }
+            if (added[2] == 1 || added[3] == 1 || added[4] == 1 || added[5] == 1){
+                printf("PROJECTS\n");
+                for (int i = 2; i <= 5; i++){
+                    if(added[i] == 1){
+                        printf("\nProject %d: %.2f", i-1, s1.work[i-2]);
+                    }
                 }
                 printf("\n============================================\n");
             }

@@ -16,10 +16,13 @@ int main() {
         printf("\n [2] Add Student");
         printf("\n [3] Display Student");
         printf("\n [4] Delete Student");
-        printf("\n [5] Add Test");
+        printf("\n [5] Add/Update Test");
         printf("\n [6] Display Test");
         printf("\n [7] Delete Test");
-        printf("\n [8] Display All Students");
+        printf("\n [8] Add/Update Project");
+        printf("\n [9] Display Project");
+        printf("\n [10] Delete Project");
+        printf("\n [11] Display All Students");
         printf("\n\n\n [0] Exit");
         printf("\n\n============================================\n\n");
 
@@ -51,6 +54,15 @@ int main() {
                 deleteTest();
                 break;
             case 8:
+                addProject();
+                break;
+            case 9:
+                displayProject();
+                break;
+            case 10:
+                deleteProject();
+                break;
+            case 11:
                 displayAllStudents();
                 break;
             case 0:

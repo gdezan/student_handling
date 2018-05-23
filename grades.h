@@ -6,6 +6,10 @@ int testsMenu();
 int addTest();
 int deleteTest();
 void displayTest();
+int addProject();
+int deleteProject();
+int projectsMenu();
+void displayProject();
 
 
 
