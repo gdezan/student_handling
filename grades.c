@@ -146,11 +146,12 @@ int deleteTest(){
     return 0;
 }
 
-void displayTest(){
+int displayTest(){
     FILE *fp;
     fp = fopen("students.dat", "rb");
     student s1;
     int chosenTest = testsMenu() - 1;
+    if (chosenTest == -1) { return 0; }
     if (added[chosenTest] == 1){
         printf("\n============================================");
         printf("\n Prova %d", chosenTest+1);
@@ -168,6 +169,7 @@ void displayTest(){
     printf("\n \n");
     system("pause");
     fclose(fp);
+    return 0;
 }
 
 int projectsMenu(){
@@ -218,7 +220,7 @@ int addProject(){
     ftemp = fopen("temp.dat", "wb");
 
     int chosenProject = projectsMenu() - 1;
-    if (chosenProject == -1) { return 0; };
+    if (chosenProject == -1) { return 0; }
     if (added[chosenProject + 2] == 1) {
         printf("\nEsse trabalho ja foi adicionado. Tem certeza que quer substitui-lo? (S/N)\n");
         char prompt;
@@ -271,11 +273,12 @@ int addProject(){
     return 0;
 }
 
-void displayProject(){
+int displayProject(){
     FILE *fp;
     fp = fopen("students.dat", "rb");
     student s1;
     int chosenProject = projectsMenu() - 1;
+    if (chosenProject == -1) { return 0; }
     if (added[chosenProject+2] == 1){
         printf("\n============================================");
         printf("\n Trabalho %d", chosenProject+1);
@@ -293,6 +296,7 @@ void displayProject(){
     printf("\n \n");
     system("pause");
     fclose(fp);
+    return 0;
 }
 
 int deleteProject(){

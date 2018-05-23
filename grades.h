@@ -5,11 +5,11 @@ int added[6];
 int testsMenu();
 int addTest();
 int deleteTest();
-void displayTest();
+int displayTest();
 int addProject();
 int deleteProject();
 int projectsMenu();
-void displayProject();
+int displayProject();
 
 
 

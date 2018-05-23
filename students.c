@@ -118,7 +118,6 @@ int writeStudents() {
 
 
 void addStudent(){
-    system("cls");
     fflush(stdin);
     FILE *fp;
     fp  = fopen("students.dat", "ab");
