@@ -68,6 +68,7 @@ int writeStudents(int confirm) {
         while (1){
             fflush(stdin);
             prompt = getchar();
+            getchar();
             if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
@@ -101,6 +102,7 @@ int writeStudents(int confirm) {
         while (1){
             fflush(stdin);
             prompt = getchar();
+            getchar();
             if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
@@ -251,6 +253,7 @@ void deleteStudent() {                                              // Deleta o 
             while (1){
                 fflush(stdin);
                 prompt = getchar();
+                getchar();
                 if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                     break;
                 }

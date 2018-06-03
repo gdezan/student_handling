@@ -51,6 +51,7 @@ int addTest(){                                          // Adiciona uma prova
         while (1){
             fflush(stdin);
             prompt = getchar();
+            getchar();
             if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
@@ -110,6 +111,7 @@ int deleteTest(){                               // Exclui um teste com o mesmo p
     while (1){
         fflush(stdin);
         prompt = getchar();
+        getchar();
         if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
             break;
         }
@@ -229,6 +231,7 @@ int addProject(){
         while (1){
             fflush(stdin);
             prompt = getchar();
+            getchar();
             if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
                 break;
             }
@@ -314,6 +317,7 @@ int deleteProject(){
     while (1){
         fflush(stdin);
         prompt = getchar();
+        getchar();
         if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
             break;
         }
