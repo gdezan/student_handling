@@ -1,6 +1,14 @@
 #ifndef students_H_
 #define students_H_
 
+
+#ifdef _WIN32
+#define CLEAR "cls"
+#else //In any other OS
+#define CLEAR "clear"
+#endif
+
+
 typedef struct stud {
     char name[127];
     int id;
@@ -8,6 +16,7 @@ typedef struct stud {
     float work[4];
 } student;
 
+void clearScreen();
 void removeNL(char *input);
 int intInput();
 float floatInput();

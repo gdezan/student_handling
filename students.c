@@ -4,10 +4,11 @@
 #include "students.h"
 #include "grades.h"
 
+
 void initAdded() {
     FILE *fp;
     student s1;
-    fp = fopen("students.dat", "rb");
+    fp = fopen("students.dat", "rb");                       
     fread(&s1, sizeof(s1), 1, fp);
     for (int i = 0; i <= 6; i++){
         added[i] = 0;

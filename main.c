@@ -8,7 +8,7 @@
 int main() {
     while (1) {
         initAdded();
-        system("cls");
+        system(CLEAR);
         printf("\n============================================");
         printf("\n Informacao de Alunos");
         printf("\n============================================");

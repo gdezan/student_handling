@@ -2,6 +2,8 @@
 #define grades_H_
 
 int added[6];
+
+
 int testsMenu();
 int addTest();
 int deleteTest();

@@ -7,7 +7,7 @@
 
 
 int testsMenu(){
-    system("cls");
+    system(CLEAR);
     printf("\n============================================");
     printf("\n Escolha a prova");
     printf("\n============================================");
@@ -173,7 +173,7 @@ int displayTest(){
 }
 
 int projectsMenu(){
-    system("cls");
+    system(CLEAR);
     printf("\n============================================");
     printf("\n Escolha o Trabalho");
     printf("\n============================================");
