@@ -6,8 +6,18 @@
 
 
 int main() {
+    FILE *fp;
+    fp = fopen("students.dat", "rb");
+    if (fp == NULL){
+        fclose(fp);
+        printf("\nArquivo antigo nao encontrado. Criando um novo arquivo de alunos: \n");
+        writeStudents(0);
+    } else {
+        fclose(fp);
+    }
     while (1) {
         initAdded();
+        fclose(fp);
         system(CLEAR);
         printf("\n============================================");
         printf("\n Informacao de Alunos");
@@ -39,7 +49,7 @@ int main() {
 
         switch(prompt){
             case 1:
-                writeStudents();
+                writeStudents(1);
                 break;
             case 2:
                 addStudent();

@@ -5,9 +5,9 @@
 #include "grades.h"
 
 
-void initAdded() {
-    FILE *fp;
-    student s1;
+void initAdded() {                                        // Função para inicializar o vetor 'added'  
+    FILE *fp;                                             // Ela lê o arquivo students.dat e vê quais 
+    student s1;                                           // provas e/ou trabalhos foram adicionados
     fp = fopen("students.dat", "rb");                       
     fread(&s1, sizeof(s1), 1, fp);
     for (int i = 0; i <= 6; i++){
@@ -22,15 +22,15 @@ void initAdded() {
     fclose(fp);
 }
 
-void removeNL(char *input){
+void removeNL(char *input){                             // Função para remover o \n do fgets
     size_t len = strlen(input);
         if (len > 0 && input[len-1] == '\n') {
             input[--len] = '\0';
     }
 }
 
-int intInput() {
-    int number;
+int intInput() {                                        // Recebe um input com fgets, confere se é
+    int number;                                         // um inteiro e o converte com a função strtol
     char inputString[127];
     char *endBuff;
     fgets(inputString, 127, stdin);
@@ -45,8 +45,8 @@ int intInput() {
     return number;
 }
 
-float floatInput() {
-    float number;
+float floatInput() {                                    // Similar a função intInput(), porém
+    float number;                                       // validando um float
     char inputString[127];
     char *endBuff;
     fgets(inputString, 127, stdin);
@@ -61,22 +61,23 @@ float floatInput() {
     return number;
 }
 
-int writeStudents() {
-    
-    printf("\nEsse procedimento ira deletar seu arquivo antigo (caso ele exista) e criar um novo.\nTem certeza que quer fazer isso? (S/N)\n");
-    char prompt;
-    while (1){
+int writeStudents(int confirm) {
+    if (confirm == 1){
+        printf("\nEsse procedimento ira deletar seu arquivo antigo (caso ele exista) e criar um novo.\nTem certeza que quer fazer isso? (S/N)\n");
+        char prompt;
+        while (1){
+            fflush(stdin);
+            prompt = getchar();
+            if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
+                break;
+            }
+            printf("\nPor favor digite \"S\" ou \"N\"\n");                      // Função que inicializa o arquivo students.dat
+        }                                                                       // Cria um arquivo students.dat novo, havendo
+        if (prompt == 'N' || prompt == 'n'){                                    // um antigo ou não
+            return 0;                                                           // Caso exista um antigo, ela será sobrescrito
+        }                                                                      
         fflush(stdin);
-        prompt = getchar();
-        if (prompt == 'S' || prompt == 's' || prompt == 'n' || prompt == 'N'){
-            break;
-        }
-        printf("\nPor favor digite \"S\" ou \"N\"\n");
-    }
-    if (prompt == 'N' || prompt == 'n'){
-        return 0;
-    }
-    fflush(stdin);
+    }   
     FILE *fp;
     fp  = fopen("students.dat", "wb");
     student s1;
@@ -118,14 +119,13 @@ int writeStudents() {
 }
 
 
-void addStudent(){
-    fflush(stdin);
-    FILE *fp;
-    fp  = fopen("students.dat", "ab");
-    student s1;
-
-    printf("\nEntre o nome do aluno: ");
-    fgets(s1.name, 127, stdin);
+void addStudent(){                                                  // Adiciona um aluno, recebendo seu nome 
+    fflush(stdin);                                                  // e número USP (NUSP)
+    FILE *fp;                                                       // Caso algum trabalho ou prova já tenha
+    fp  = fopen("students.dat", "ab");                              // sido adicionado, o usuário também deverá
+    student s1;                                                     // colocar as notas desse aluno para a prova/
+    printf("\nEntre o nome do aluno: ");                            // tralalho adicionado
+    fgets(s1.name, 127, stdin);                                     // Essa checagem é feita com o vetor 'added'
     removeNL(s1.name);
     printf("Entre o NUSP do aluno: ");
     s1.id = intInput();
@@ -148,17 +148,17 @@ void addStudent(){
     fclose(fp);
 }
 
-void printStudent(student st) {
+void printStudent(student st) {                                     // Mostra o nome e NUSP do aluno
     printf("\n============================================");
     printf("\nNome: %s", st.name);
     printf("\nNUSP: %d", st.id);
     printf("\n============================================");
 }
 
-void displayStudent() {
-    fflush(stdin);
-    student s1;
-    FILE *fr;
+void displayStudent() {                                             // Além de mostrar o nome e NUSP do aluno,
+    fflush(stdin);                                                  // essa função confere quais notas foram
+    student s1;                                                     // adicionadas e as mostra, exibindo todas
+    FILE *fr;                                                       // as informações disponíveis do aluno
     fr = fopen("students.dat", "rb");
     char search[127];
     printf("Entre o nome completo do aluno ou seu NUSP: ");
@@ -206,7 +206,7 @@ void displayStudent() {
 
 }
 
-void displayAllStudents() {
+void displayAllStudents() {                     // Exibe os nomes e NUSPs de todos os alunos
     fflush(stdin);
     printf("ALUNOS\n");
     student s1;
@@ -225,12 +225,12 @@ void displayAllStudents() {
 }
 
 
-void deleteStudent() {
-    fflush(stdin);
-    FILE *fp, *ftemp;
-    fp  = fopen("students.dat", "rb");
-    ftemp = fopen("temp.dat", "wb");
-    student s1;
+void deleteStudent() {                                              // Deleta o aluno escolhido
+    fflush(stdin);                                                  // Essa função copia todos os alunos para
+    FILE *fp, *ftemp;                                               // um arquivo temporário, exceto o aluno a ser deletado
+    fp  = fopen("students.dat", "rb");                              // O arquivo temporário, então, tem todos os alunos,
+    ftemp = fopen("temp.dat", "wb");                                // exceto o escolhido
+    student s1;                                                         
     char search[127];
     printf("Entre o nome completo do aluno ou seu NUSP: ");
     fgets(search, 127, stdin);
@@ -274,10 +274,10 @@ void deleteStudent() {
         ftemp = fopen("temp.dat", "rb");
 
         while(1){
-            fread(&s1, sizeof(s1), 1, ftemp);
-            if(feof(ftemp)){
-                break;
-            }
+            fread(&s1, sizeof(s1), 1, ftemp);               // Apos todas as informações necessárias serem
+            if(feof(ftemp)){                                // copiadas para o arquivo temporário, a função 
+                break;                                      // reescreve o students.dat, usando as informações
+            }                                               // do arquivo temporário
             fwrite(&s1, sizeof(s1), 1, fp);
         }
         fclose(fp);

@@ -8,11 +8,11 @@
 
 int testsMenu(){
     system(CLEAR);
-    printf("\n============================================");
-    printf("\n Escolha a prova");
+    printf("\n============================================");               // Exibe um menu com as provas e retorna qual
+    printf("\n Escolha a prova");                                           // prova foi selecionada
     printf("\n============================================");
     printf("\n\n [1] Prova 1");
-    if (added[0] == 0){ printf(" (Prova nao adicionada ainda)");}
+    if (added[0] == 0){ printf(" (Prova nao adicionada ainda)");} // Caso a prova não tenha sido adicionada, o menu irá avisar
     printf("\n [2] Prova 2");
     if (added[1] == 0){ printf(" (Prova nao adicionada ainda)");}
     printf("\n\n\n [0] Voltar");
@@ -37,10 +37,10 @@ int testsMenu(){
     return -1;
 }
 
-int addTest(){
-    FILE *fp, *ftemp;
-    student s1;
-    fp = fopen("students.dat", "rb");
+int addTest(){                                          // Adiciona uma prova
+    FILE *fp, *ftemp;                                   // Caso a prova ja tenha sido adicionada previamente,
+    student s1;                                         // o usuário deve confirmar que quer substituir os valores
+    fp = fopen("students.dat", "rb");                   // O uso de um arquivo temporário é similar à função deleteStudent()
     ftemp = fopen("temp.dat", "wb");
 
     int chosenTest = testsMenu() - 1;
@@ -97,7 +97,7 @@ int addTest(){
     return 0;
 }
 
-int deleteTest(){
+int deleteTest(){                               // Exclui um teste com o mesmo princípio da função deleteStudent()
     FILE *fp, *ftemp;
     student s1;
     fp = fopen("students.dat", "rb");
@@ -146,7 +146,7 @@ int deleteTest(){
     return 0;
 }
 
-int displayTest(){
+int displayTest(){                                      // Exibe a prova selecionada no menu
     FILE *fp;
     fp = fopen("students.dat", "rb");
     student s1;
@@ -171,6 +171,8 @@ int displayTest(){
     fclose(fp);
     return 0;
 }
+
+/* As funções abaixo funcionam das mesma forma que as acima, porém são utilizadas com trabalhos ao invés de provas */
 
 int projectsMenu(){
     system(CLEAR);

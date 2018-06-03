@@ -4,7 +4,7 @@
 
 #ifdef _WIN32
 #define CLEAR "cls"
-#else //In any other OS
+#else
 #define CLEAR "clear"
 #endif
 
@@ -20,7 +20,7 @@ void clearScreen();
 void removeNL(char *input);
 int intInput();
 float floatInput();
-int writeStudents();
+int writeStudents(int confirm);
 void addStudent();
 void printStudent(student st);
 void displayStudent();
