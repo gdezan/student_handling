@@ -9,7 +9,6 @@ int main() {
     FILE *fp;
     fp = fopen("students.dat", "rb");
     if (fp == NULL){
-        fclose(fp);
         printf("\nArquivo antigo nao encontrado. Criando um novo arquivo de alunos: \n");
         writeStudents(0);
     } else {
@@ -17,7 +16,6 @@ int main() {
     }
     while (1) {
         initAdded();
-        fclose(fp);
         system(CLEAR);
         printf("\n============================================");
         printf("\n Informacao de Alunos");
@@ -85,7 +83,7 @@ int main() {
                 return 0;
             default:
                 printf("Essa opcao nao existe.\n");
-                system("pause");
+                getchar();
                 break;
         }
     }

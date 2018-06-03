@@ -201,7 +201,7 @@ void displayStudent() {                                             // Além de 
         printf("\nO aluno não foi encontrado.");
     }
     printf("\n\n");
-    system("pause");
+    getchar();
     fclose(fr);
 
 }
@@ -221,7 +221,7 @@ void displayAllStudents() {                     // Exibe os nomes e NUSPs de tod
     }
     fclose(fr);
     printf("\n");
-    system("pause");
+    getchar();
 }
 
 
@@ -284,5 +284,5 @@ void deleteStudent() {                                              // Deleta o 
         fclose(ftemp);
 
     }
-    system("pause");
+    getchar();
 }
