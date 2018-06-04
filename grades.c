@@ -30,6 +30,7 @@ int testsMenu(){
             break;
         default:
             printf("Essa opcao nao existe\n");
+            printf("\n\nPressione ENTER para continuar ");
             getchar();
             break;
     }
@@ -168,7 +169,7 @@ int displayTest(){                                      // Exibe a prova selecio
     } else {
         printf("\nEssa prova nao foi adicionada.");
     }
-    printf("\n \n");
+    printf("\n\nPressione ENTER para continuar ");
     getchar();
     fclose(fp);
     return 0;
@@ -210,6 +211,7 @@ int projectsMenu(){
             break;
         default:
             printf("Essa opcao nao existe.\n");
+            printf("\n\nPressione ENTER para continuar ");
             getchar();
             break;
     }
@@ -298,7 +300,7 @@ int displayProject(){
     } else {
         printf("\nEsse trabalho nao foi adicionado.");
     }
-    printf("\n \n");
+    printf("\n\nPressione ENTER para continuar ");
     getchar();
     fclose(fp);
     return 0;

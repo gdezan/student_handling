@@ -83,6 +83,7 @@ int main() {
                 return 0;
             default:
                 printf("Essa opcao nao existe.\n");
+                printf("\n\nPressione ENTER para continuar ");
                 getchar();
                 break;
         }

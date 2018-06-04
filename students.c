@@ -202,7 +202,7 @@ void displayStudent() {                                             // Além de 
     if (found == 0){
         printf("\nO aluno não foi encontrado.");
     }
-    printf("\n\n");
+    printf("\n\nPressione ENTER para continuar ");
     getchar();
     fclose(fr);
 
@@ -222,7 +222,7 @@ void displayAllStudents() {                     // Exibe os nomes e NUSPs de tod
         printStudent(s1);
     }
     fclose(fr);
-    printf("\n");
+    printf("\n\nPressione ENTER para continuar ");
     getchar();
 }
 
@@ -287,5 +287,5 @@ void deleteStudent() {                                              // Deleta o 
         fclose(ftemp);
 
     }
-    getchar();
+    printf("\n\nPressione ENTER para continuar ");
 }
