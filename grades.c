@@ -120,6 +120,8 @@ int deleteTest(){                               // Exclui um teste com o mesmo p
     }
     if (prompt == 'N' || prompt == 'n'){
         return 0;
+    } else {
+        printf("\nProva excluida.");
     }
     while (1){
         fread(&s1, sizeof(s1), 1, fp);
@@ -145,6 +147,8 @@ int deleteTest(){                               // Exclui um teste com o mesmo p
 
     fclose(ftemp);
     fclose(fp);
+    printf("\n\nPressione ENTER para continuar ");
+    getchar();
     added[chosenTest] = 0;
     return 0;
 }
@@ -327,6 +331,8 @@ int deleteProject(){
     }
     if (prompt == 'N' || prompt == 'n'){
         return 0;
+    } else {
+        printf("\nTrabalho excluido.");
     }
     while (1){
         fread(&s1, sizeof(s1), 1, fp);
@@ -352,6 +358,8 @@ int deleteProject(){
 
     fclose(ftemp);
     fclose(fp);
+    printf("\n\nPressione ENTER para continuar ");
+    getchar();
     added[chosenProject+2] = 0;
     return 0;
 }

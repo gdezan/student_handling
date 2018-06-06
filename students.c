@@ -5,14 +5,19 @@
 #include "grades.h"
 
 
-void initAdded() {                                        // Função para inicializar o vetor 'added'  
+int initAdded() {                                        // Função para inicializar o vetor 'added'  
     FILE *fp;                                             // Ela lê o arquivo students.dat e vê quais 
     student s1;                                           // provas e/ou trabalhos foram adicionados
-    fp = fopen("students.dat", "rb");                       
+    fp = fopen("students.dat", "rb");
+    if(feof){
+        fclose(fp);
+        return 0;
+    }                       
     fread(&s1, sizeof(s1), 1, fp);
     for (int i = 0; i <= 6; i++){
         added[i] = 0;
     }
+    
     if (s1.test[0] != -1){ added[0] = 1;}
     if (s1.test[1] != -1){ added[1] = 1;}
     if (s1.work[0] != -1){ added[2] = 1;}
@@ -20,6 +25,7 @@ void initAdded() {                                        // Função para inici
     if (s1.work[2] != -1){ added[4] = 1;}
     if (s1.work[3] != -1){ added[5] = 1;}
     fclose(fp);
+    return 0;
 }
 
 void removeNL(char *input){                             // Função para remover o \n do fgets
@@ -288,4 +294,5 @@ void deleteStudent() {                                              // Deleta o 
 
     }
     printf("\n\nPressione ENTER para continuar ");
+    getchar();
 }

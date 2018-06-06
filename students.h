@@ -26,6 +26,6 @@ void printStudent(student st);
 void displayStudent();
 void displayAllStudents();
 void deleteStudent();
-void initAdded();
+int initAdded();
 
 #endif
