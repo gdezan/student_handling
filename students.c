@@ -9,7 +9,7 @@ int initAdded() {                                        // Função para inicia
     FILE *fp;                                             // Ela lê o arquivo students.dat e vê quais 
     student s1;                                           // provas e/ou trabalhos foram adicionados
     fp = fopen("students.dat", "rb");
-    if(feof){
+    if(feof(fp)){
         fclose(fp);
         return 0;
     }                       

@@ -34,7 +34,7 @@ int main() {
         printf("\n\n-----------------TRABALHOS------------------");
         printf("\n [8] Adicionar/Atualizar Trabalho");
         printf("\n [9] Consultar Trabalho");
-        printf("\n [10] Deletar Trabalho");
+        printf("\n [10] Excluir Trabalho");
         printf("\n--------------------------------------------");
         printf("\n\n [11] Mostrar Todos Alunos");
         printf("\n\n\n [0] Sair");
