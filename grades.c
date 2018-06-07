@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "students.h"
 #include "grades.h"
 
@@ -259,9 +260,30 @@ int addProject(){
         if (added[chosenProject+2] == 1){
             printf("\nEntre com a nova nota para %s (Nota antiga: %.2f): ", s1.name, s1.work[chosenProject]);
         } else {
-            printf("\nEntre com a nota para %s: ", s1.name);
+            printf("\nEntre com a nota do grupo de %s: ", s1.name);
         }
-        s1.work[chosenProject] = floatInput();
+        float pGrade = floatInput();
+        printf("Entre com a quantidade de membros do grupo: ");
+        int quantity = intInput();
+        if (quantity != 1){
+            printf("Entre com a posicao (P) de %s no grupo: ", s1.name);
+        }
+        int pos;
+        while(1){
+            if (quantity == 1){
+                pos = 0;
+                break;
+            }
+            pos = intInput();
+            if (pos >= 0 && pos <= quantity-1){
+                break;
+            } else {
+                printf("O valor de P deve ser entre 0 e %d: ", quantity-1);
+            }
+        }
+        float fGrade = pGrade * (1 + (0.05 * (quantity - 1)))*(powf(0.9, pos));
+        printf("\nNota individual de %s: %.2f\n\n", s1.name, fGrade);
+        s1.work[chosenProject] = fGrade;
         fwrite(&s1, sizeof(s1), 1, ftemp);
     }
     fclose(ftemp);
@@ -281,6 +303,9 @@ int addProject(){
     fclose(ftemp);
     fclose(fp);
     added[chosenProject+2] = 1;
+
+    printf("\n\nPressione ENTER para continuar ");
+    getchar();
     return 0;
 }
 

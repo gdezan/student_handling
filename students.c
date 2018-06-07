@@ -194,7 +194,7 @@ void displayStudent() {                                             // Além de 
                 printf("\n============================================\n");
             }
             if (added[2] == 1 || added[3] == 1 || added[4] == 1 || added[5] == 1){
-                printf("TRABALHOS\n");
+                printf("\nTRABALHOS\n");
                 for (int i = 2; i <= 5; i++){
                     if(added[i] == 1){
                         printf("\nTrabalho %d: %.2f", i-1, s1.work[i-2]);
